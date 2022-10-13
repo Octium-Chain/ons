@@ -9,6 +9,7 @@ const networks = {
   "0x89": "Polygon Mainnet",
   "0x13881": "Polygon Mumbai Testnet",
   "0xa86a": "AVAX Mainnet",
+  "0xB2EC": "Octium Mainnet"
 }
 
 export { networks };

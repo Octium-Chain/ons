@@ -8,11 +8,11 @@ import ethLogo from './assets/ethlogo.png';
 import { networks } from './utils/networks';
 
 // Constants
-const TWITTER_HANDLE = '_buildspace';
+const TWITTER_HANDLE = 'octium_io';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 // Add the domain you will be minting
-const tld = '.ninja';
-const CONTRACT_ADDRESS = '0xCfa6969952287d5AD6a5021C8BC413512Af2f214';
+const tld = '.web3';
+const CONTRACT_ADDRESS = '0xdF9499cADB3a24ebC5Bc557651aA7FEcBF39ef56';
 
 const App = () => {
 	const [currentAccount, setCurrentAccount] = useState('');
@@ -48,7 +48,7 @@ const App = () => {
       // Try to switch to the Mumbai testnet
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x13881' }], // Check networks.js for hexadecimal network ids
+        params: [{ chainId: '0xB2EC' }], // Check networks.js for hexadecimal network ids
       });
     } catch (error) {
       // This error code means that the chain we want has not been added to MetaMask
@@ -59,15 +59,15 @@ const App = () => {
             method: 'wallet_addEthereumChain',
             params: [
               {	
-                chainId: '0x13881',
-                chainName: 'Polygon Mumbai Testnet',
-                rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+                chainId: '0xB2EC',
+                chainName: 'Octium Mainnet',
+                rpcUrls: ['https://rpc.octium.io/'],
                 nativeCurrency: {
-                    name: "Mumbai Matic",
-                    symbol: "MATIC",
+                    name: "Octium",
+                    symbol: "OCT",
                     decimals: 18
                 },
-                blockExplorerUrls: ["https://mumbai.polygonscan.com/"]
+                blockExplorerUrls: ["https://scan.octium.io/"]
               },
             ],
           });
@@ -142,13 +142,13 @@ const App = () => {
     
     			// Check if the transaction was successfully completed
     			if (receipt.status === 1) {
-    				console.log("Domain minted! https://mumbai.polygonscan.com/tx/"+tx.hash);
+    				console.log("Domain minted! https://rpc.octium.io/tx/"+tx.hash);
     				
     				// Set the record for the domain
     				tx = await contract.setRecord(domain, record);
     				await tx.wait();
     
-    				console.log("Record set! https://mumbai.polygonscan.com/tx/"+tx.hash);
+    				console.log("Record set! https://rpc.octium.io/tx/"+tx.hash);
 
             // Call fetchMints after 2 seconds
             setTimeout(() => {
@@ -181,7 +181,7 @@ const App = () => {
   
         let tx = await contract.setRecord(domain, record);
         await tx.wait();
-        console.log("Record set https://mumbai.polygonscan.com/tx/"+tx.hash);
+        console.log("Record set https://rpc.octium.io/tx/"+tx.hash);
   
         fetchMints();
         setRecord('');
@@ -228,7 +228,7 @@ const App = () => {
 
 // This will run any time currentAccount or network are changed
 useEffect(() => {
-  if (network === 'Polygon Mumbai Testnet') {
+  if (network === 'Octium Mainnet') {
     fetchMints();
   }
 }, [currentAccount, network]);
@@ -236,7 +236,7 @@ useEffect(() => {
 	// Render methods
 	const renderNotConnectedContainer = () => (
 		<div className="connect-wallet-container">
-			<img src="https://media.giphy.com/media/3ohhwytHcusSCXXOUg/giphy.gif" alt="Ninja donut gif" />
+			<img src="https://media.giphy.com/media/3ohhwytHcusSCXXOUg/giphy.gif" alt="Octium donut gif" />
       {/* Call the connectWallet function we just wrote when the button is clicked */}
 			<button onClick={connectWallet} className="cta-button connect-wallet-button">
 				Connect Wallet
@@ -283,14 +283,14 @@ const editRecord = (name) => {
 	
 	// Form to enter domain name and data
 	const renderInputForm = () =>{
-    if (network !== 'Polygon Mumbai Testnet') {
-      return (
-        <div className="connect-wallet-container">
-          <p>Please connect to Polygon Mumbai Testnet</p>
-          <button className='cta-button mint-button' onClick={switchNetwork}>Click here to switch</button>
-        </div>
-      );
-    }
+    // if (network !== 'Octium Mainnet') {
+    //   return (
+    //     <div className="connect-wallet-container">
+    //       <p>Please connect to Octium Mainnet</p>
+    //       <button className='cta-button mint-button' onClick={switchNetwork}>Click here to switch</button>
+    //     </div>
+    //   );
+    // }
 
     return (
       <div className="form-container">
@@ -307,7 +307,7 @@ const editRecord = (name) => {
         <input
           type="text"
           value={record}
-          placeholder='whats ur ninja power?'
+          placeholder='whats ur Octium power?'
           onChange={e => setRecord(e.target.value)}
         />
           {/* If the editing variable is true, return the "Set record" and "Cancel" button */}
@@ -342,12 +342,12 @@ const editRecord = (name) => {
 				<div className="header-container">
 					<header>
 						<div className="left">
-							<p className="title">🐱‍👤 Ninja Name Service</p>
-							<p className="subtitle">Your immortal API on the blockchain!</p>
+							<p className="title">🐱‍👤 Octium Name Service</p>
+							<p className="subtitle">Your immortal Domain on the blockchain!</p>
 						</div>
             {/* Display a logo and wallet connection status*/}
             <div className="right">
-              <img alt="Network logo" className="logo" src={ network.includes("Polygon") ? polygonLogo : ethLogo} />
+             
                 { currentAccount ? <p> Wallet: {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)} </p> : <p>                 Not connected </p> }
             </div>
 					</header>
